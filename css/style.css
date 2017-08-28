@@ -9,20 +9,22 @@
 }
 
 #cashRegister {
-  width: 345px;
+  width: 360px;
 }
 
 .display {
-  padding-left: 10px;
+  margin-bottom: 10px;
 }
 
 .display .userInput {
   float: left;
 
-  height: 20px;
-  width: 183px;
+  height: 30px;
+  width: 209px;
 
   border: 1px solid black;
+
+  margin-right: 5px
 }
 
 .display .equals {
@@ -33,6 +35,7 @@
   overflow: hidden;
 }
 
+/* Applying style to keys */
 .display span.equals, .keys span {
   user-select: none;
 
@@ -41,12 +44,18 @@
   top: 0;
 
   width: 65px;
-  height: 35px;
+  height: 30px;
 
+  border: 1px solid black;
+
+  margin: 0 5px 10px 0;
+
+  line-height: 30px;
   text-align: center;
+
 }
 
-.keys span.operation {
+.keys span.option {
   margin-right: 0;
 }
 
