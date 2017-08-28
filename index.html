@@ -3,9 +3,90 @@
   <head>
     <meta charset = 'UTF-8'>
     <title>Cash Register</title>
+    <style>
+
+      .content {
+        margin-left: 100px;
+        margin-top: 100px;
+        padding: 10px;
+        position: absolute;
+
+        border: 1px dashed black;
+        overflow: hidden;     
+      }
+
+      .buttonColumn {
+        float: left;
+        position: relative;
+        padding-left: 4px;
+        padding-right: 4px;
+
+      }
+
+      /*#inputDisplay {
+        display: table;
+        margin: 0 auto;
+      }*/
+
+      #digitButtons button {
+        width: 30px;
+        text-align: center;
+      }
+
+      #optionButtons button {
+        width: 100px;
+        text-align center;
+      }
+
+    </style>
   </head>
   <body>
-    <script src = 'js/calculator.js'></script>
-    <script src = 'cash_register.js'></script>
+    <div class = 'content'>
+      <script src = 'js/calculator.js'></script>
+      <script src = 'cash_register.js'></script>
+
+      <div id = 'inputDisplay'>
+        <button type = 'button'>[________________________]</button>
+        <p>
+      </div>
+
+      <div class = 'buttonColumn' id = 'digitButtons'>
+        <button type = 'button'>7</button><br>
+        <button type = 'button'>4</button><br>
+        <button type = 'button'>1</button><br>
+        <button type = 'button'>0</button><br>
+      </div>
+
+      <div class = 'buttonColumn' id = 'digitButtons'>
+        <button type = 'button'>8</button><br>
+        <button type = 'button'>5</button><br>
+        <button type = 'button'>2</button><br>
+        <button type = 'button'>00</button><br>
+      </div>
+
+      <div class = 'buttonColumn' id = 'digitButtons'>
+        <button type = 'button'>9</button><br>
+        <button type = 'button'>6</button><br>
+        <button type = 'button'>3</button><br>
+        <button type = 'button'>.</button><br>
+      </div>
+
+      <div class = 'buttonColumn' id = 'digitButtons'>
+        <button type = 'button'>÷</button><br>
+        <button type = 'button'>x</button><br>
+        <button type = 'button'>-</button><br>
+        <button type = 'button'>+</button><br>
+        <button type = 'button'>=</button><br>
+      </div>
+
+      
+      <div class = 'buttonColumn' id = 'optionButtons'>
+        <button type = 'button'>clear</button><br>
+        <button type = 'button'>get balance</button><br>
+        <button type = 'button'>deposit cash</button><br>
+        <button type = 'button'>withdraw cash</button><br>
+      </div>
+      
+    </div>
   </body>
 </html>
