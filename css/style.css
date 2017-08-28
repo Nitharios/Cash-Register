@@ -1,0 +1,55 @@
+#content {
+  /*margin-left: 100px;
+  margin-top: 100px;*/
+  padding: 10px;
+  position: absolute;
+
+  border: 1px dashed black;
+  overflow: hidden;     
+}
+
+#cashRegister {
+  width: 345px;
+}
+
+.display {
+  padding-left: 10px;
+}
+
+.display .userInput {
+  float: left;
+
+  height: 20px;
+  width: 183px;
+
+  border: 1px solid black;
+}
+
+.display .equals {
+  float: right;
+}
+
+.display, .keys {
+  overflow: hidden;
+}
+
+.display span.equals, .keys span {
+  user-select: none;
+
+  float: left;
+  position: relative;
+  top: 0;
+
+  width: 65px;
+  height: 35px;
+
+  text-align: center;
+}
+
+.keys span.operation {
+  margin-right: 0;
+}
+
+.option {
+
+}
