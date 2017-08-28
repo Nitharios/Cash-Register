@@ -5,7 +5,7 @@
  * @variable PRIVATE { Number } `total`
  * @return {object} `calculator` object that can be used
  */
- var calculatorModule = (function() {
+ var calculator = (function() {
 
     var memory = 0, total = 0;
 
