@@ -24,6 +24,10 @@ for (var i = 0; i < keys.length; i++) {
 
     } else if (keyVal === 'balance') {
     
+    } else if (keyVal === 'deposit') {
+
+    } else if (keyVal === 'withdraw') {
+
     } else {
       input.innerHTML += keyVal
     }
