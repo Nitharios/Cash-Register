@@ -2,26 +2,56 @@ var calculator = new calculator()
 
 // Retrieves key input from index
 var keys = document.querySelectorAll('#cashRegister span')
-var operations = ['+', '-', 'x', '÷']
+var operationArr = ['+', '-', 'x', '÷']
+var result
 
 // Create onclick event for keys
 for (var i = 0; i < keys.length; i++) {
   keys[i].onclick = function(e) {
     // Retrieve input and key values
     var input = document.querySelector('.userInput')
-    var inputVal = input.innerHTML     // current input on screen
+    var inputVal = input.innerHTML     // current input on screen before key-stroke
     var keyVal = this.innerHTML        // key-stroke
 
     if (keyVal === '=') {
-      var equation = inputVal
+      var tempResult = 0
+      var equation = inputVal.split(' ')
 
-      /*if (equation) {
-        input.innerHTML = eval(equation)
-      }*/
+      while (equation.indexOf('x') !== -1 || equation.indexOf('÷') !== -1) {
+
+        var multiplyIdx = equation.indexOf('x')
+        var divideIdx = equation.indexOf('÷')
+
+        if (multiplyIdx < divideIdx && multiplyIdx > 0 || divideIdx === -1) {
+          tempResult = equation[multiplyIdx-1] * equation[multiplyIdx+1]
+          equation.splice(multiplyIdx-1, 3, tempResult)
+
+        } else if (divideIdx < multiplyIdx && divideIdx > 0 || multiplyIdx === -1) {
+          tempResult = equation[divideIdx-1] / equation[divideIdx+1]
+          equation.splice(divideIdx-1, 3, tempResult)
+        }
+      }
+
+      while (equation.indexOf('+') !== -1 || equation.indexOf('-') !== -1) {
+
+        var addIdx = equation.indexOf('+')
+        var subIdx = equation.indexOf('-')
+
+        if (addIdx < subIdx && addIdx > 0 || subIdx === -1) {
+          tempResult = parseFloat(equation[addIdx-1]) + parseFloat(equation[addIdx+1])
+          equation.splice(addIdx-1, 3, tempResult)
+
+        } else if (subIdx < addIdx && subIdx > 0 || addIdx === -1) {
+          tempResult = equation[subIdx-1] - equation[subIdx+1]
+          equation.splice(subIdx-1, 3, tempResult)
+        }
+      }
+
+      input.innerHTML = tempResult
 
     } else if (keyVal === 'reset') {
       calculator.resetTotal()
-      input.innerHTML = ''
+      input.innerHTML = '0'
 
     } else if (keyVal === 'clear') {
       input.innerHTML = ''
@@ -39,78 +69,19 @@ for (var i = 0; i < keys.length; i++) {
 
     } else {
 
-      if (inputVal.indexOf(0) === 0) {
-        input.innerHTML = ''
-      }
+      if (inputVal.indexOf(0) === 0 && keyVal === 0) {
+        input.innerHTML = 0
       
-      input.innerHTML += keyVal
+      } else if (inputVal.indexOf(0) === 0 && operationArr.indexOf(keyVal) === -1) {
+        input.innerHTML = keyVal
+
+      } else if (keyVal.search('[0-9]+') !== -1) {
+        input.innerHTML += keyVal
+
+      } else {
+        input.innerHTML += ' ' + keyVal + ' '
+
+      }
     }
   }
 }
-
-/*
- var calculatorFlux = function() {
-
-    var memory = 0, total = 0;
-
-    return calculatorNO = {
-      load: setTotal,
-      getTotal: getTotal,
-      add: add,
-      subtract: subtract,
-      multiply: multiply,
-      divide: divide,
-      recallMemory: recallMemory,
-      saveMemory: saveMemory,
-      clearMemory: clearMemory
-    }
-
-    function setTotal(x) {
-      validate(x)
-      total = x
-      return total
-   }
-
-    function getTotal() {
-      return total
-   }
-
-    function add(x) {
-      validate(x)
-      total += x
-    }
-
-    function subtract(x) {
-      validate(x)
-      total -= x
-    }
-
-    function multiply(x) {
-      validate(x)
-      total *= x
-    } 
-
-    function divide(x) {
-      validate(x)
-      total /= x
-    }
-
-    function recallMemory() {
-      return memory
-    }
-
-    function saveMemory() {
-      memory = total
-    }
-
-    function clearMemory() {
-      memory = 0
-    }
-
-    function validate(x) {
-      if (typeof x !== 'number') {
-        throw new Error('Invalid')
-      }
-    }
-}
-*/
