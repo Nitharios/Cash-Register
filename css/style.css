@@ -37,7 +37,11 @@
 
 /* Applying style to keys */
 .display span.equals, .keys span {
-  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none
+  ;
+  cursor: pointer;
 
   float: left;
   position: relative;
