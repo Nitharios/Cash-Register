@@ -48,14 +48,13 @@ var registerLogic = (function () {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    // changes keyChoice to true for some reason instead of expected . or 00
-    if (keyChoice = '.' && decimalAdded === false) {
+    if (keyChoice === '.' && decimalAdded === false) {
       decimalAdded = true;
-      input.innerHTML += '.';
+      input.innerHTML += keyChoice;
 
-    } else if (keyChoice = '00' && zeroZeroAdded === false) {
+    } else if (keyChoice === '00' && zeroZeroAdded === false) {
       zeroZeroAdded = true;
-      input.innerHTML += '00';
+      input.innerHTML += keyChoice;
     }
   // end of registerSpecial function
   }
