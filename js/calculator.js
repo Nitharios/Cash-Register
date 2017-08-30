@@ -1,7 +1,25 @@
 
 var calculator = (function() {
 
+  var balance = 0;
   var total = 0;
+
+  function getBalance() {
+    return balance;
+  }
+
+  function resetBalance() {
+    balance = 0;
+    return balance;
+  }
+
+  function addToBalance(num) {
+    balance += num;
+  }
+
+  function subtractFromBalance(num) {
+    balance -= num;
+  }
 
   function getTotal() {
     return total;
@@ -12,35 +30,29 @@ var calculator = (function() {
     return total;
   }
 
-  function addToTotal(num) {
+  function add(num) {
     total += num;
   }
 
-  function subtractFromTotal(num) {
+  function subtract(num) {
     total -= num;
   }
 
-  function add(x, y) {
-    return x + y;
-  }
-
-  function subtract(x, y) {
-    return x - y;
-  }
-
-  function multiply(x, y) {
-    return x * y;
+  function multiply(num) {
+    total *= num;
   } 
 
-  function divide(x, y) {
-    return x / y;
+  function divide(num) {
+    total /= num;
   }
 
   return calculator = {
+    getBalance: getBalance,
+    resetBalance: resetBalance,
+    deposit: addToBalance,
+    withdraw: subtractFromBalance,
     getTotal: getTotal,
-    reset: resetTotal,
-    deposit: addToTotal,
-    withdraw: subtractFromTotal,
+    resetTotal: resetTotal,
     add: add,
     subtract: subtract,
     multiply: multiply,

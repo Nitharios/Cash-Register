@@ -4,7 +4,7 @@ var registerLogic = (function () {
   // Creates a nodeList of all the keys under #cashRegister
   var digits = document.querySelectorAll('.digit');
   var specialKeys = document.querySelectorAll('.special');
-  var operations = document.querySelectorAll('operation');
+  var operations = document.querySelectorAll('.operation');
   var options = document.querySelectorAll('.option');
   var decimalAdded = false;
   var zeroZeroAdded = false;
@@ -26,7 +26,7 @@ var registerLogic = (function () {
     operations[i].onclick = registerOperation;
   }
 
-  // Loop to assin event function for each option
+  // Loop to assign event function for each option
   for (var i = 0; i < options.length; i++) {
     options[i].onclick = registerOption;
   }
@@ -74,21 +74,28 @@ var registerLogic = (function () {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    if (keyChoice === '=') {
+    if (balanceCheck === false) {
 
+      if (keyChoice === '=') {
+        input.innerHTML = calculator.getTotal();
 
-    } else if (keyChoice === '+') {
+      } else if (keyChoice === '+') {
+        calculator.add(parseFloat(input.innerHTML));
+        input.innerHTML = calculator.getTotal();
 
+      } else if (keyChoice === '-') {
+        calculator.subtract(parseFloat(input.innerHTML));
+        input.innerHTML = calculator.getTotal();
 
-    } else if (keyChoice === '-') {
+      } else if (keyChoice === 'x') {
+        calculator.multiply(parseFloat(input.innerHTML));
+        input.innerHTML = calculator.getTotal();
 
+      } else if (keyChoice === '÷') {
+        calculator.divide(parseFloat(input.innerHTML));
+        input.innerHTML = calculator.getTotal();
 
-    } else if (keyChoice === 'x') {
-
-
-    } else if (keyChoice === '÷') {
-
-
+      }
     }
   // end of registerOperation function
   }
@@ -101,7 +108,7 @@ var registerLogic = (function () {
     var keyChoice = this.innerHTML;
 
     if (keyChoice === 'reset') {
-      calculator.reset();
+      calculator.resetBalance();
       clear();
 
     } else if (keyChoice === 'clear') {
@@ -109,7 +116,7 @@ var registerLogic = (function () {
 
     } else if (keyChoice === 'balance') {
       balanceCheck = true;
-      input.innerHTML = calculator.getTotal();
+      input.innerHTML = calculator.getBalance();
     
     } else if (balanceCheck === false) {
       
@@ -117,7 +124,7 @@ var registerLogic = (function () {
         calculator.deposit(parseFloat(input.innerHTML));
         clear();
 
-      } else if (keyChoice === 'withdraw' && input.innerHTML < calculator.getTotal()) {
+      } else if (keyChoice === 'withdraw' && input.innerHTML < calculator.getBalance()) {
         calculator.withdraw(parseFloat(input.innerHTML));
         clear();
       }
@@ -131,6 +138,7 @@ var registerLogic = (function () {
     zeroZeroAdded = false;
     digitCounter = 0;
     balanceCheck = false;
+    calculator.resetTotal();
     document.querySelector('.userInput').innerHTML = 0;
   }
 // end of registerLogic function  
