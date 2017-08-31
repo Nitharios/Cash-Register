@@ -30,6 +30,11 @@ var calculator = (function() {
     return total;
   }
 
+  function setTotal(num) {
+    total = num;
+  }
+
+
   function resetTotal() {
     total = 0;
     resetOperators();
@@ -104,6 +109,7 @@ var calculator = (function() {
     deposit: addToBalance,
     withdraw: subtractFromBalance,
     getTotal: getTotal,
+    setTotal: setTotal,
     resetTotal: resetTotal,
     add: add,
     subtract: subtract,

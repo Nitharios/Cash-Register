@@ -26,6 +26,8 @@ var registerLogic = (function () {
   var placeCounter = 0;
   var balanceSelected = false;
   var operator = null;
+  var operatorArr = ['=', '+', '-', 'x', '÷'];
+  var totalSet = false;
   var currentNum = 0;
 
   // Loop to assign event function for each digit
@@ -92,56 +94,64 @@ var registerLogic = (function () {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    selectChecker();
+    //selectChecker();
 
-    if (keyChoice === '=') {
+    if (operatorArr.indexOf(keyChoice) !== -1 && totalSet === false) {
+      totalSet = true;
+      calculator.setTotal(input.innerHTML);
+      input.innerHTML = '=';
 
-      input.innerHTML = calculator.getTotal();
+    } else if (totalSet === true) {
 
-      /*if (operator === '+') {
+      if (keyChoice === '=') {
+
+        input.innerHTML = calculator.getTotal();
+
+        /*if (operator === '+') {
+          calculator.add(currentNum);
+          input.innerHTML = calculator.getTotal();
+
+        } else if (operator === '-') {
+          calculator.subtract(currentNum);
+          input.innerHTML = calculator.getTotal();
+
+        } else if (operator === 'x') {
+          calculator.multiply(currentNum);
+          input.innerHTML = calculator.getTotal();
+
+        } else if (operator === '÷') {
+          calculator.divide(currentNum);
+          input.innerHTML = calculator.getTotal();
+
+        } else {
+          input.innerHTML = calculator.getTotal();
+        }*/
+
+      } else if (keyChoice === '+') {
+        operator = keyChoice;
+        currentNum = input.innerHTML;
         calculator.add(currentNum);
         input.innerHTML = calculator.getTotal();
 
-      } else if (operator === '-') {
+      } else if (keyChoice === '-') {
+        operator = keyChoice;
+        currentNum = input.innerHTML;
         calculator.subtract(currentNum);
         input.innerHTML = calculator.getTotal();
 
-      } else if (operator === 'x') {
+      } else if (keyChoice === 'x') {
+        operator = keyChoice;
+        currentNum = input.innerHTML;
         calculator.multiply(currentNum);
         input.innerHTML = calculator.getTotal();
 
-      } else if (operator === '÷') {
+      } else if (keyChoice === '÷') {
+        operator = keyChoice;
+        currentNum = input.innerHTML;
         calculator.divide(currentNum);
         input.innerHTML = calculator.getTotal();
 
-      } else {
-        input.innerHTML = calculator.getTotal();
-      }*/
-
-    } else if (keyChoice === '+') {
-      operator = keyChoice;
-      currentNum = input.innerHTML;
-      calculator.add(currentNum);
-      input.innerHTML = calculator.getTotal();
-
-    } else if (keyChoice === '-') {
-      operator = keyChoice;
-      currentNum = input.innerHTML;
-      calculator.subtract(currentNum);
-      input.innerHTML = calculator.getTotal();
-
-    } else if (keyChoice === 'x') {
-      operator = keyChoice;
-      currentNum = input.innerHTML;
-      calculator.multiply(currentNum);
-      input.innerHTML = calculator.getTotal();
-
-    } else if (keyChoice === '÷') {
-      operator = keyChoice;
-      currentNum = input.innerHTML;
-      calculator.divide(currentNum);
-      input.innerHTML = calculator.getTotal();
-
+      }
     }
   // end of registerOperation function
   }
@@ -185,6 +195,7 @@ var registerLogic = (function () {
     placeCounter = 0;
     balanceSelected = false;
     operator = null;
+    totalSet = false;
     calculator.resetTotal();
     document.querySelector('.userInput').innerHTML = 0;
   }
