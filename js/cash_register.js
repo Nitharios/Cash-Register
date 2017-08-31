@@ -1,12 +1,13 @@
 /*
 KNOWN BUGS:
-!! If operator has already been selected and a different operator is selected, the operator function will perform function on total and current innerHTML variables
+<> SOLVED: If operator has already been selected and a different operator is selected, the operator function will perform function on total and current innerHTML variables
+      <> SOLUTION --> Boolean variables in each math function to 'flip the switch'
 <> SOLVED: When consecutively pressing operator key, userInput resets to 0
 <> SOLVED: Add function does not appear to add properly and returns only the first number
       only works if (operator = '+')) || (operator section of selectChecker is removed)
-      !!PROBLEM --> document.querySelector(.userInput).innerHTML = '' operation section of selectChecker is interferring with add()
+      !! PROBLEM --> document.querySelector(.userInput).innerHTML = '' operation section of selectChecker is interferring with add()
           --> selectChecker() is setting the .innerHTML when the operator key is pressed
-      <>SOLUTION --> removed operation section of selectChecker & added line: input.innerHTML = calculator.getTotal() to bottom of add()
+      <> SOLUTION --> removed operation section of selectChecker & added line: input.innerHTML = calculator.getTotal() to bottom of add()
 */
 
 // Self-invoking function
@@ -96,18 +97,18 @@ var registerLogic = (function () {
 
       } else if (operator === '-') {
         calculator.subtract(input.innerHTML);
-        input.innerHTML = calculator.getTotal();
+        input.innerHTML = calculator.getTempTotal();
 
       } else if (operator === 'x') {
         calculator.multiply(input.innerHTML);
-        input.innerHTML = calculator.getTotal();
+        input.innerHTML = calculator.getTempTotal();
 
       } else if (operator === '÷') {
         calculator.divide(input.innerHTML);
-        input.innerHTML = calculator.getTotal();
+        input.innerHTML = calculator.getTempTotal();
 
       } else {
-        input.innerHTML = calculator.getTotal();
+        input.innerHTML = calculator.getTempTotal();
       }
 
     } else if (keyChoice === '+') {
@@ -118,17 +119,17 @@ var registerLogic = (function () {
     } else if (keyChoice === '-') {
       operator = keyChoice;
       calculator.subtract(input.innerHTML);
-      input.innerHTML = calculator.getTotal();
+      input.innerHTML = calculator.getTempTotal();
 
     } else if (keyChoice === 'x') {
       operator = keyChoice;
       calculator.multiply(input.innerHTML);
-      input.innerHTML = calculator.getTotal();
+      input.innerHTML = calculator.getTempTotal();
 
     } else if (keyChoice === '÷') {
       operator = keyChoice;
       calculator.divide(input.innerHTML);
-      input.innerHTML = calculator.getTotal();
+      input.innerHTML = calculator.getTempTotal();
 
     }
   // end of registerOperation function
