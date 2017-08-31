@@ -4,12 +4,7 @@ var calculator = (function() {
 
   var balance = 0;
   var total = 0;
-  // var used for add and subtract functions
-  var a = 0;
-  var b = 0;
-  // var used for multiply and divide functions
-  var x = 0;
-  var y = 0
+  var tempTotal = 0;
 
   function getBalance() {
     return balance;
@@ -29,32 +24,50 @@ var calculator = (function() {
   }
 
   function getTotal() {
+    total = tempTotal;
+    tempTotal = 0;
     return total;
+  }
+
+  function getTempTotal() {
+    return tempTotal;
   }
 
   function resetTotal() {
     total = 0;
-    return total;
-  }
-
-  function equals(num) {
-    y = num;
+    tempTotal = 0;
   }
 
   function add(num) {
-    x = num;
+    if (tempTotal === 0) {
+      tempTotal = parseFloat(num);
+    } else {
+      tempTotal += parseFloat(num);
+    }
   }
 
   function subtract(num) {
-    x = num;
+    if (tempTotal === 0) {
+      tempTotal = parseFloat(num);
+    } else {
+      tempTotal -= parseFloat(num);
+    }
   }
 
   function multiply(num) {
-    a = num;
-  } 
+    if (tempTotal === 0) {
+      tempTotal = parseFloat(num);
+    } else {
+      tempTotal *= parseFloat(num);
+    }
+  }
 
   function divide(num) {
-    b = num;
+    if (tempTotal === 0) {
+      tempTotal = parseFloat(num);
+    } else {
+      tempTotal /= parseFloat(num);
+    }
   }
 
   return calculator = {
@@ -63,6 +76,7 @@ var calculator = (function() {
     deposit: addToBalance,
     withdraw: subtractFromBalance,
     getTotal: getTotal,
+    getTempTotal: getTempTotal,
     resetTotal: resetTotal,
     add: add,
     subtract: subtract,

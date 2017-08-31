@@ -1,3 +1,14 @@
+/*
+KNOWN BUGS:
+<> If operator has already been selected and a different operator is selected, the operator function will perform function on total and current innerHTML variables
+<> SOLVED: When consecutively pressing operator key, userInput resets to 0
+<> SOLVED: Add function does not appear to add properly and returns only the first number
+      only works if (operator = '+')) || (operator section of selectChecker is removed)
+      !!PROBLEM FOUND --> document.querySelector(.userInput).innerHTML = '' operation section of selectChecker is interferring with add()
+          --> selectChecker() is setting the .innerHTML when the operator key is pressed
+      <>SOLUTION --> removed operation section of selectChecker & added line: input.innerHTML = calculator.getTotal() to bottom of add()
+*/
+
 // Self-invoking function
 var registerLogic = (function () {
   // Creates a nodeList of all the keys under #cashRegister
@@ -7,8 +18,9 @@ var registerLogic = (function () {
   var options = document.querySelectorAll('.option');
   var decimalAdded = false;
   var zeroZeroAdded = false;
-  var digitCounter = 0;
+  var placeCounter = 0;
   var balanceSelected = false;
+  var operator = null;
 
   // Loop to assign event function for each digit
   for (var i = 0; i < digits.length; i++) {
@@ -34,17 +46,18 @@ var registerLogic = (function () {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    balanceCheck();
+    selectChecker();
+    operatorChecker();
 
-      // Inputs the key in the userInput section of the UI
+    // Inputs the key in the userInput section of the UI
     if (input.innerHTML.indexOf(0) === 0 && decimalAdded === false) {
       input.innerHTML = keyChoice;
       
-    } else if (digitCounter < 2 && decimalAdded === true) {
-      digitCounter += 1;
+    } else if (placeCounter < 2 && decimalAdded === true) {
+      placeCounter += 1;
       input.innerHTML += keyChoice;
       
-    } else if (digitCounter < 2 && decimalAdded === false) {
+    } else if (placeCounter < 2 && decimalAdded === false) {
       input.innerHTML += keyChoice;
 
     }
@@ -55,14 +68,15 @@ var registerLogic = (function () {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    balanceCheck();
+    selectChecker();
 
     if (keyChoice === '.' && decimalAdded === false) {
       decimalAdded = true;
       input.innerHTML += keyChoice;
 
-    } else if (keyChoice === '00' && zeroZeroAdded === false && digitCounter === 0) {
+    } else if (keyChoice === '00' && decimalAdded === true && placeCounter === 0) {
       zeroZeroAdded = true;
+      placeCounter = 2;
       input.innerHTML += keyChoice;
     }
   // end of registerSpecial function
@@ -72,25 +86,48 @@ var registerLogic = (function () {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    balanceCheck();
+    selectChecker();
 
     if (keyChoice === '=') {
-      input.innerHTML = calculator.getTotal();
+
+      if (operator === '+') {
+        calculator.add(input.innerHTML);
+        input.innerHTML = calculator.getTempTotal();
+
+      } else if (operator === '-') {
+        calculator.subtract(input.innerHTML);
+        input.innerHTML = calculator.getTotal();
+
+      } else if (operator === 'x') {
+        calculator.multiply(input.innerHTML);
+        input.innerHTML = calculator.getTotal();
+
+      } else if (operator === '÷') {
+        calculator.divide(input.innerHTML);
+        input.innerHTML = calculator.getTotal();
+
+      } else {
+        input.innerHTML = calculator.getTotal();
+      }
 
     } else if (keyChoice === '+') {
-      calculator.add(parseFloat(input.innerHTML));
-      input.innerHTML = calculator.getTotal();
+      operator = keyChoice;
+      calculator.add(input.innerHTML);
+      input.innerHTML = calculator.getTempTotal();
 
     } else if (keyChoice === '-') {
-      calculator.subtract(parseFloat(input.innerHTML));
+      operator = keyChoice;
+      calculator.subtract(input.innerHTML);
       input.innerHTML = calculator.getTotal();
 
     } else if (keyChoice === 'x') {
-      calculator.multiply(parseFloat(input.innerHTML));
+      operator = keyChoice;
+      calculator.multiply(input.innerHTML);
       input.innerHTML = calculator.getTotal();
 
     } else if (keyChoice === '÷') {
-      calculator.divide(parseFloat(input.innerHTML));
+      operator = keyChoice;
+      calculator.divide(input.innerHTML);
       input.innerHTML = calculator.getTotal();
 
     }
@@ -133,16 +170,23 @@ var registerLogic = (function () {
   function clear() {
     decimalAdded = false;
     zeroZeroAdded = false;
-    digitCounter = 0;
+    placeCounter = 0;
     balanceSelected = false;
+    operator = null;
     calculator.resetTotal();
     document.querySelector('.userInput').innerHTML = 0;
   }
 
   // if the balance has been checked, clears userInput
-  function balanceCheck() {
+  function selectChecker() {
     if (balanceSelected === true) {
       balanceSelected = false;
+      document.querySelector('.userInput').innerHTML = 0;
+    }
+  }
+
+  function operatorChecker() {
+    if (operator !== null) {
       document.querySelector('.userInput').innerHTML = 0;
     }
   }
