@@ -1,5 +1,9 @@
 /*
 KNOWN BUGS:
+!! '=' requires 2x clicks to evaluate properly
+      !! PROBLEM --> If innerHTML starts from 0, function will add first digit to total but not second because of if-else logic
+!! UPDATED: If an operator is selected, it will apply function to the number in userInput
+      !! PROBLEM --> ex. 200 (operator: +) = 400 ...
 <> SOLVED: If operator has already been selected and a different operator is selected, the operator function will perform function on total and current innerHTML variables
       <> SOLUTION --> Boolean variables in each math function to 'flip the switch'
 <> SOLVED: When consecutively pressing operator key, userInput resets to 0
@@ -22,6 +26,7 @@ var registerLogic = (function () {
   var placeCounter = 0;
   var balanceSelected = false;
   var operator = null;
+  var currentNum = 0;
 
   // Loop to assign event function for each digit
   for (var i = 0; i < digits.length; i++) {
@@ -29,18 +34,18 @@ var registerLogic = (function () {
   }
 
   // Loop to assign event function for each special key
-  for (var i = 0; i < specialKeys.length; i++) {
-    specialKeys[i].onclick = registerSpecial;
+  for (var j = 0; j < specialKeys.length; j++) {
+    specialKeys[j].onclick = registerSpecial;
   }
 
   // Loop to assign event function for each operation
-  for (var i = 0; i < operations.length; i++) {
-    operations[i].onclick = registerOperation;
+  for (var k = 0; k < operations.length; k++) {
+    operations[k].onclick = registerOperation;
   }
 
   // Loop to assign event function for each option
-  for (var i = 0; i < options.length; i++) {
-    options[i].onclick = registerOption;
+  for (var l = 0; l < options.length; l++) {
+    options[l].onclick = registerOption;
   }
 
   function registerDigit(event) {
@@ -91,45 +96,51 @@ var registerLogic = (function () {
 
     if (keyChoice === '=') {
 
-      if (operator === '+') {
-        calculator.add(input.innerHTML);
-        input.innerHTML = calculator.getTempTotal();
+      input.innerHTML = calculator.getTotal();
+
+      /*if (operator === '+') {
+        calculator.add(currentNum);
+        input.innerHTML = calculator.getTotal();
 
       } else if (operator === '-') {
-        calculator.subtract(input.innerHTML);
-        input.innerHTML = calculator.getTempTotal();
+        calculator.subtract(currentNum);
+        input.innerHTML = calculator.getTotal();
 
       } else if (operator === 'x') {
-        calculator.multiply(input.innerHTML);
-        input.innerHTML = calculator.getTempTotal();
+        calculator.multiply(currentNum);
+        input.innerHTML = calculator.getTotal();
 
       } else if (operator === '÷') {
-        calculator.divide(input.innerHTML);
-        input.innerHTML = calculator.getTempTotal();
+        calculator.divide(currentNum);
+        input.innerHTML = calculator.getTotal();
 
       } else {
-        input.innerHTML = calculator.getTempTotal();
-      }
+        input.innerHTML = calculator.getTotal();
+      }*/
 
     } else if (keyChoice === '+') {
       operator = keyChoice;
-      calculator.add(input.innerHTML);
-      input.innerHTML = calculator.getTempTotal();
+      currentNum = input.innerHTML;
+      calculator.add(currentNum);
+      input.innerHTML = calculator.getTotal();
 
     } else if (keyChoice === '-') {
       operator = keyChoice;
-      calculator.subtract(input.innerHTML);
-      input.innerHTML = calculator.getTempTotal();
+      currentNum = input.innerHTML;
+      calculator.subtract(currentNum);
+      input.innerHTML = calculator.getTotal();
 
     } else if (keyChoice === 'x') {
       operator = keyChoice;
-      calculator.multiply(input.innerHTML);
-      input.innerHTML = calculator.getTempTotal();
+      currentNum = input.innerHTML;
+      calculator.multiply(currentNum);
+      input.innerHTML = calculator.getTotal();
 
     } else if (keyChoice === '÷') {
       operator = keyChoice;
-      calculator.divide(input.innerHTML);
-      input.innerHTML = calculator.getTempTotal();
+      currentNum = input.innerHTML;
+      calculator.divide(currentNum);
+      input.innerHTML = calculator.getTotal();
 
     }
   // end of registerOperation function
@@ -192,4 +203,4 @@ var registerLogic = (function () {
     }
   }
 // end of registerLogic function  
-})()
+})();

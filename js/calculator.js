@@ -4,7 +4,7 @@ var calculator = (function() {
 
   var balance = 0;
   var total = 0;
-  var tempTotal = 0;
+  
   var addUsed = false;
   var subUsed = false;
   var multiUsed = false;
@@ -16,7 +16,6 @@ var calculator = (function() {
 
   function resetBalance() {
     balance = 0;
-    return balance;
   }
 
   function addToBalance(num) {
@@ -28,18 +27,12 @@ var calculator = (function() {
   }
 
   function getTotal() {
-    total = tempTotal;
-    tempTotal = 0;
     return total;
-  }
-
-  function getTempTotal() {
-    return tempTotal;
   }
 
   function resetTotal() {
     total = 0;
-    tempTotal = 0;
+    resetOperators();
   }
 
   function add(num) {
@@ -47,10 +40,12 @@ var calculator = (function() {
     multiUsed = false;
     diviUsed = false;
 
-    if (tempTotal === 0) {
-      tempTotal = parseFloat(num);
+    if (total === 0) {
+      total = parseFloat(num);
+    } else if (addUsed === false) {
+      addUsed = true;
     } else {
-      tempTotal += parseFloat(num);
+      total += parseFloat(num);
     }
   }
 
@@ -59,10 +54,12 @@ var calculator = (function() {
     multiUsed = false;
     diviUsed = false;
 
-    if (tempTotal === 0) {
-      tempTotal = parseFloat(num);
+    if (total === 0) {
+      total = parseFloat(num);
+    } else if (subUsed === false) {
+      subUsed = true;
     } else {
-      tempTotal -= parseFloat(num);
+      total -= parseFloat(num);
     }
   }
 
@@ -71,12 +68,12 @@ var calculator = (function() {
     subUsed = false;
     diviUsed = false;
 
-    if (tempTotal === 0) {
-      tempTotal = parseFloat(num);
+    if (total === 0) {
+      total = parseFloat(num);
     } else if (multiUsed === false) {
       multiUsed = true;
     } else {
-      tempTotal *= parseFloat(num);
+      total *= parseFloat(num);
     }
   }
 
@@ -85,10 +82,12 @@ var calculator = (function() {
     subUsed = false;
     multiUsed = false;
 
-    if (tempTotal === 0) {
-      tempTotal = parseFloat(num);
+    if (total === 0) {
+      total = parseFloat(num);
+    } else if (diviUsed === false) {
+      diviUsed = true;
     } else {
-      tempTotal /= parseFloat(num);
+      total /= parseFloat(num);
     }
   }
 
@@ -105,7 +104,6 @@ var calculator = (function() {
     deposit: addToBalance,
     withdraw: subtractFromBalance,
     getTotal: getTotal,
-    getTempTotal: getTempTotal,
     resetTotal: resetTotal,
     add: add,
     subtract: subtract,
