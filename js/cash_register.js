@@ -1,10 +1,10 @@
 /*
 KNOWN BUGS:
-<> If operator has already been selected and a different operator is selected, the operator function will perform function on total and current innerHTML variables
+!! If operator has already been selected and a different operator is selected, the operator function will perform function on total and current innerHTML variables
 <> SOLVED: When consecutively pressing operator key, userInput resets to 0
 <> SOLVED: Add function does not appear to add properly and returns only the first number
       only works if (operator = '+')) || (operator section of selectChecker is removed)
-      !!PROBLEM FOUND --> document.querySelector(.userInput).innerHTML = '' operation section of selectChecker is interferring with add()
+      !!PROBLEM --> document.querySelector(.userInput).innerHTML = '' operation section of selectChecker is interferring with add()
           --> selectChecker() is setting the .innerHTML when the operator key is pressed
       <>SOLUTION --> removed operation section of selectChecker & added line: input.innerHTML = calculator.getTotal() to bottom of add()
 */
