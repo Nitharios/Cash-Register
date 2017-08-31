@@ -1,5 +1,4 @@
-
-// Revealing Module Pattern to prevent function variables from being affected outside the function's scope
+// Self-invoking function
 var registerLogic = (function () {
   // Creates a nodeList of all the keys under #cashRegister
   var digits = document.querySelectorAll('.digit');
