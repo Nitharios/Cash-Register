@@ -9,7 +9,7 @@ var registerLogic = (function () {
   var decimalAdded = false;
   var zeroZeroAdded = false;
   var digitCounter = 0;
-  var balanceCheck = false;
+  var balanceSelected = false;
 
   // Loop to assign event function for each digit
   for (var i = 0; i < digits.length; i++) {
@@ -35,20 +35,20 @@ var registerLogic = (function () {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    if (balanceCheck === false) {
-      // Inputs the key in the userInput section of the UI
-      if (input.innerHTML.indexOf(0) === 0 && decimalAdded === false) {
-        input.innerHTML = keyChoice;
-      
-      } else if (digitCounter < 2 && decimalAdded === true) {
-        digitCounter += 1;
-        input.innerHTML += keyChoice;
-      
-      } else if (digitCounter < 2 && decimalAdded === false) {
-        input.innerHTML += keyChoice;
+    balanceCheck();
 
-      }
-    } 
+      // Inputs the key in the userInput section of the UI
+    if (input.innerHTML.indexOf(0) === 0 && decimalAdded === false) {
+      input.innerHTML = keyChoice;
+      
+    } else if (digitCounter < 2 && decimalAdded === true) {
+      digitCounter += 1;
+      input.innerHTML += keyChoice;
+      
+    } else if (digitCounter < 2 && decimalAdded === false) {
+      input.innerHTML += keyChoice;
+
+    }
   // end of registerDigit function  
   }
 
@@ -56,16 +56,15 @@ var registerLogic = (function () {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    if (balanceCheck === false) {
-      if (keyChoice === '.' && decimalAdded === false) {
-        decimalAdded = true;
-        input.innerHTML += keyChoice;
+    balanceCheck();
 
-      } else if (keyChoice === '00' && zeroZeroAdded === false && digitCounter === 0) {
-        zeroZeroAdded = true;
-        input.innerHTML += keyChoice;
+    if (keyChoice === '.' && decimalAdded === false) {
+      decimalAdded = true;
+      input.innerHTML += keyChoice;
 
-      }
+    } else if (keyChoice === '00' && zeroZeroAdded === false && digitCounter === 0) {
+      zeroZeroAdded = true;
+      input.innerHTML += keyChoice;
     }
   // end of registerSpecial function
   }
@@ -74,28 +73,27 @@ var registerLogic = (function () {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    if (balanceCheck === false) {
+    balanceCheck();
 
-      if (keyChoice === '=') {
-        input.innerHTML = calculator.getTotal();
+    if (keyChoice === '=') {
+      input.innerHTML = calculator.getTotal();
 
-      } else if (keyChoice === '+') {
-        calculator.add(parseFloat(input.innerHTML));
-        input.innerHTML = calculator.getTotal();
+    } else if (keyChoice === '+') {
+      calculator.add(parseFloat(input.innerHTML));
+      input.innerHTML = calculator.getTotal();
 
-      } else if (keyChoice === '-') {
-        calculator.subtract(parseFloat(input.innerHTML));
-        input.innerHTML = calculator.getTotal();
+    } else if (keyChoice === '-') {
+      calculator.subtract(parseFloat(input.innerHTML));
+      input.innerHTML = calculator.getTotal();
 
-      } else if (keyChoice === 'x') {
-        calculator.multiply(parseFloat(input.innerHTML));
-        input.innerHTML = calculator.getTotal();
+    } else if (keyChoice === 'x') {
+      calculator.multiply(parseFloat(input.innerHTML));
+      input.innerHTML = calculator.getTotal();
 
-      } else if (keyChoice === '÷') {
-        calculator.divide(parseFloat(input.innerHTML));
-        input.innerHTML = calculator.getTotal();
+    } else if (keyChoice === '÷') {
+      calculator.divide(parseFloat(input.innerHTML));
+      input.innerHTML = calculator.getTotal();
 
-      }
     }
   // end of registerOperation function
   }
@@ -106,7 +104,7 @@ var registerLogic = (function () {
     var input = document.querySelector('.userInput');
     // Registers most recent key press
     var keyChoice = this.innerHTML;
-
+    // resets entire calculator 
     if (keyChoice === 'reset') {
       calculator.resetBalance();
       clear();
@@ -115,11 +113,11 @@ var registerLogic = (function () {
       clear();
 
     } else if (keyChoice === 'balance') {
-      balanceCheck = true;
+      balanceSelected = true;
       input.innerHTML = calculator.getBalance();
-    
-    } else if (balanceCheck === false) {
       
+    } else if (balanceSelected === false) {
+
       if (keyChoice === 'deposit') {
         calculator.deposit(parseFloat(input.innerHTML));
         clear();
@@ -127,19 +125,27 @@ var registerLogic = (function () {
       } else if (keyChoice === 'withdraw' && input.innerHTML < calculator.getBalance()) {
         calculator.withdraw(parseFloat(input.innerHTML));
         clear();
+
       }
     }
-
-  // end of registerKey function 
+  // end of registerOption function 
   }
-
+  // clears user input and resets values except total and balance
   function clear() {
     decimalAdded = false;
     zeroZeroAdded = false;
     digitCounter = 0;
-    balanceCheck = false;
+    balanceSelected = false;
     calculator.resetTotal();
     document.querySelector('.userInput').innerHTML = 0;
+  }
+
+  // if the balance has been checked, clears userInput
+  function balanceCheck() {
+    if (balanceSelected === true) {
+      balanceSelected = false;
+      document.querySelector('.userInput').innerHTML = 0;
+    }
   }
 // end of registerLogic function  
 })()
