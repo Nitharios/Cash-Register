@@ -1,6 +1,8 @@
 /*
 KNOWN BUGS:
-!! Adding a 0 to a digit mid calculation will set digit to 0
+<> Solved: Adding a 0 to a digit mid calculation will set digit to 0
+      !! PROBLEM --> operatorChecker() was overwriting input
+      <> SOLUTION --> removed operatorChecker() and wrote added Boolean to check for operator used and to reset operator if multiple digits input
 <> SOLVED: '='' requires 2x clicks to evaluate properly
       !! PROBLEM --> If innerHTML starts from 0, function will add first digit to total but not second because of if-else logic
 <> SOLVED: If an operator is selected, it will apply function to the number in userInput
@@ -27,6 +29,7 @@ var registerLogic = (function () {
   var placeCounter = 0;
   var balanceSelected = false;
   var operator = null;
+  var operatorUsed = false;
 
   // Loop to assign event function for each digit
   for (var i = 0; i < digits.length; i++) {
@@ -53,7 +56,11 @@ var registerLogic = (function () {
     var keyChoice = this.innerHTML;
 
     balanceChecker();
-    operatorChecker();
+
+    if (operatorUsed === true) {
+      operatorUsed = false;
+      input.innerHTML = '';
+    }
 
     // Inputs the key in the userInput section of the UI
     if (input.innerHTML.indexOf(0) === 0 && decimalAdded === false) {
@@ -96,6 +103,7 @@ var registerLogic = (function () {
     // sets the total if 0
     if (calculator.getTotal() === 0) {
       operator = keyChoice;
+      operatorUsed = true;
       calculator.setTotal(input.innerHTML);
 
     } else if (keyChoice === '=') {
@@ -141,9 +149,9 @@ var registerLogic = (function () {
         calculator.divide(input.innerHTML);
         input.innerHTML = calculator.getTotal();
       }
-      
-      operator = keyChoice; 
 
+      operator = keyChoice; 
+      operatorUsed = true;
     }
   // end of registerOperation function
   }
@@ -195,10 +203,6 @@ var registerLogic = (function () {
     }
   }
 
-  function calculatorLogic(input) {
- 
-  }
-
   // clears user input and resets values except total and balance
   function clear() {
     decimalAdded = false;
@@ -206,9 +210,9 @@ var registerLogic = (function () {
     placeCounter = 0;
     balanceSelected = false;
     operator = null;
+    operatorChecker = null;
     calculator.resetTotal();
     document.querySelector('.userInput').innerHTML = 0;
   }
-
 // end of registerLogic function  
 })();

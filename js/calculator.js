@@ -5,11 +5,6 @@ var calculator = (function() {
   var balance = 0;
   var total = 0;
 
-  var addUsed = false;
-  var subUsed = false;
-  var multiUsed = false;
-  var diviUsed = false;
-
   function getBalance() {
     return balance;
   }
@@ -52,13 +47,6 @@ var calculator = (function() {
 
   function divide(num) {
     total /= parseFloat(num);
-  }
-
-  function resetOperators() {
-    addUsed = false;
-    subUsed = false;
-    multiUsed = false;
-    diviUsed = false;
   }
 
   return calculator = {
