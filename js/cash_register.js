@@ -1,17 +1,18 @@
 /*
 KNOWN BUGS:
-!! '=' requires 2x clicks to evaluate properly
+!! Adding a 0 to a digit mid calculation will set digit to 0
+<> SOLVED: '='' requires 2x clicks to evaluate properly
       !! PROBLEM --> If innerHTML starts from 0, function will add first digit to total but not second because of if-else logic
-!! UPDATED: If an operator is selected, it will apply function to the number in userInput
+<> SOLVED: If an operator is selected, it will apply function to the number in userInput
       !! PROBLEM --> ex. 200 (operator: +) = 400 ...
 <> SOLVED: If operator has already been selected and a different operator is selected, the operator function will perform function on total and current innerHTML variables
       <> SOLUTION --> Boolean variables in each math function to 'flip the switch'
 <> SOLVED: When consecutively pressing operator key, userInput resets to 0
 <> SOLVED: Add function does not appear to add properly and returns only the first number
-      only works if (operator = '+')) || (operator section of selectChecker is removed)
-      !! PROBLEM --> document.querySelector(.userInput).innerHTML = '' operation section of selectChecker is interferring with add()
-          --> selectChecker() is setting the .innerHTML when the operator key is pressed
-      <> SOLUTION --> removed operation section of selectChecker & added line: input.innerHTML = calculator.getTotal() to bottom of add()
+      only works if (operator = '+')) || (operator section of balanceChecker is removed)
+      !! PROBLEM --> document.querySelector(.userInput).innerHTML = '' operation section of balanceChecker is interferring with add()
+          --> balanceChecker() is setting the .innerHTML when the operator key is pressed
+      <> SOLUTION --> removed operation section of balanceChecker & added line: input.innerHTML = calculator.getTotal() to bottom of add()
 */
 
 // Self-invoking function
@@ -26,9 +27,6 @@ var registerLogic = (function () {
   var placeCounter = 0;
   var balanceSelected = false;
   var operator = null;
-  var operatorArr = ['=', '+', '-', 'x', '÷'];
-  var totalSet = false;
-  var currentNum = 0;
 
   // Loop to assign event function for each digit
   for (var i = 0; i < digits.length; i++) {
@@ -37,7 +35,7 @@ var registerLogic = (function () {
 
   // Loop to assign event function for each special key
   for (var j = 0; j < specialKeys.length; j++) {
-    specialKeys[j].onclick = registerSpecial;
+    specialKeys[j].onclick = registerSpecialKey;
   }
 
   // Loop to assign event function for each operation
@@ -54,7 +52,7 @@ var registerLogic = (function () {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    selectChecker();
+    balanceChecker();
     operatorChecker();
 
     // Inputs the key in the userInput section of the UI
@@ -72,11 +70,11 @@ var registerLogic = (function () {
   // end of registerDigit function  
   }
 
-  function registerSpecial(event) {
+  function registerSpecialKey(event) {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    selectChecker();
+    balanceChecker();
 
     if (keyChoice === '.' && decimalAdded === false) {
       decimalAdded = true;
@@ -87,71 +85,65 @@ var registerLogic = (function () {
       placeCounter = 2;
       input.innerHTML += keyChoice;
     }
-  // end of registerSpecial function
+  // end of registerSpecialKey function
   }
 
   function registerOperation(event) {
     var input = document.querySelector('.userInput');
     var keyChoice = this.innerHTML;
 
-    //selectChecker();
-
-    if (operatorArr.indexOf(keyChoice) !== -1 && totalSet === false) {
-      totalSet = true;
+    balanceChecker();
+    // sets the total if 0
+    if (calculator.getTotal() === 0) {
+      operator = keyChoice;
       calculator.setTotal(input.innerHTML);
-      input.innerHTML = '=';
 
-    } else if (totalSet === true) {
-
-      if (keyChoice === '=') {
-
+    } else if (keyChoice === '=') {
+      // if = operator selected, will return total according to last operator used and reset total
+      if (operator === '+') {
+        calculator.add(input.innerHTML);
         input.innerHTML = calculator.getTotal();
+        calculator.resetTotal();
 
-        /*if (operator === '+') {
-          calculator.add(currentNum);
-          input.innerHTML = calculator.getTotal();
-
-        } else if (operator === '-') {
-          calculator.subtract(currentNum);
-          input.innerHTML = calculator.getTotal();
-
-        } else if (operator === 'x') {
-          calculator.multiply(currentNum);
-          input.innerHTML = calculator.getTotal();
-
-        } else if (operator === '÷') {
-          calculator.divide(currentNum);
-          input.innerHTML = calculator.getTotal();
-
-        } else {
-          input.innerHTML = calculator.getTotal();
-        }*/
-
-      } else if (keyChoice === '+') {
-        operator = keyChoice;
-        currentNum = input.innerHTML;
-        calculator.add(currentNum);
+      } else if (operator === '-') {
+        calculator.subtract(input.innerHTML);
         input.innerHTML = calculator.getTotal();
+        calculator.resetTotal();
 
-      } else if (keyChoice === '-') {
-        operator = keyChoice;
-        currentNum = input.innerHTML;
-        calculator.subtract(currentNum);
+      } else if (operator === 'x') {
+        calculator.multiply(input.innerHTML);
         input.innerHTML = calculator.getTotal();
+        calculator.resetTotal();      
 
-      } else if (keyChoice === 'x') {
-        operator = keyChoice;
-        currentNum = input.innerHTML;
-        calculator.multiply(currentNum);
+      } else if (operator === '÷') {
+        calculator.divide(input.innerHTML);
         input.innerHTML = calculator.getTotal();
-
-      } else if (keyChoice === '÷') {
-        operator = keyChoice;
-        currentNum = input.innerHTML;
-        calculator.divide(currentNum);
-        input.innerHTML = calculator.getTotal();
+        calculator.resetTotal();
 
       }
+
+    // if any other operator key is used, function performed
+    } else {
+
+      if (operator === '+') {
+        calculator.add(input.innerHTML);
+        input.innerHTML = calculator.getTotal();
+
+      } else if (operator === '-') {
+        calculator.subtract(input.innerHTML);
+        input.innerHTML = calculator.getTotal();
+
+      } else if (operator === 'x') {
+        calculator.multiply(input.innerHTML);
+        input.innerHTML = calculator.getTotal(); 
+
+      } else if (operator === '÷') {
+        calculator.divide(input.innerHTML);
+        input.innerHTML = calculator.getTotal();
+      }
+      
+      operator = keyChoice; 
+
     }
   // end of registerOperation function
   }
@@ -188,20 +180,9 @@ var registerLogic = (function () {
     }
   // end of registerOption function 
   }
-  // clears user input and resets values except total and balance
-  function clear() {
-    decimalAdded = false;
-    zeroZeroAdded = false;
-    placeCounter = 0;
-    balanceSelected = false;
-    operator = null;
-    totalSet = false;
-    calculator.resetTotal();
-    document.querySelector('.userInput').innerHTML = 0;
-  }
 
   // if the balance has been checked, clears userInput
-  function selectChecker() {
+  function balanceChecker() {
     if (balanceSelected === true) {
       balanceSelected = false;
       document.querySelector('.userInput').innerHTML = 0;
@@ -210,8 +191,24 @@ var registerLogic = (function () {
 
   function operatorChecker() {
     if (operator !== null) {
-      document.querySelector('.userInput').innerHTML = 0;
+      document.querySelector('.userInput').innerHTML = '';
     }
   }
+
+  function calculatorLogic(input) {
+ 
+  }
+
+  // clears user input and resets values except total and balance
+  function clear() {
+    decimalAdded = false;
+    zeroZeroAdded = false;
+    placeCounter = 0;
+    balanceSelected = false;
+    operator = null;
+    calculator.resetTotal();
+    document.querySelector('.userInput').innerHTML = 0;
+  }
+
 // end of registerLogic function  
 })();
