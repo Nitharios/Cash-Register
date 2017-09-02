@@ -16,6 +16,7 @@ KNOWN BUGS:
           --> balanceChecker() is setting the .innerHTML when the operator key is pressed
       <> SOLUTION --> removed operation section of balanceChecker & added line: input.innerHTML = calculator.getTotal() to bottom of add()
 */
+console.log('Sanity Test - cash_register.js')
 
 // Self-invoking function
 var registerLogic = (function () {
@@ -30,7 +31,8 @@ var registerLogic = (function () {
   var balanceSelected = false;
   var operator = null;
   var operatorUsed = false;
-  
+  var tempNum = 0;
+
   // Loop to assign event function for each digit
   for (var i = 0; i < digits.length; i++) {
     digits[i].onclick = registerDigit;
@@ -57,20 +59,21 @@ var registerLogic = (function () {
 
     balanceChecker();
 
-    if (operatorUsed === true) {
-      operatorUsed = false;
-      input.innerHTML = '';
-    }
-
     // Inputs the key in the userInput section of the UI
-    if (input.innerHTML.indexOf(0) === 0 && decimalAdded === false) {
+    if (input.innerHTML === '0' && decimalAdded === false) {
+      operatorUsed = false;
+      tempNum = keyChoice;
       input.innerHTML = keyChoice;
       
     } else if (placeCounter < 2 && decimalAdded === true) {
+      operatorUsed = false;
       placeCounter += 1;
+      tempNum += keyChoice;
       input.innerHTML += keyChoice;
       
     } else if (placeCounter < 2 && decimalAdded === false) {
+      operatorUsed = false;
+      tempNum += keyChoice;
       input.innerHTML += keyChoice;
 
     }
@@ -101,56 +104,30 @@ var registerLogic = (function () {
 
     balanceChecker();
     // sets the total if 0
-    if (calculator.getTotal() === 0) {
-      operator = keyChoice;
+    if (calculator.setTotal() === 0) {
       operatorUsed = true;
-      calculator.setTotal(input.innerHTML);
+      operator = keyChoice;
+      calculator.setTotal(tempNum);
+      calculator.pushToArray(null, tempNum)
+      input.innerHTML += operator;
 
     } else if (keyChoice === '=') {
       // if = operator selected, will return total according to last operator used and reset total
-      if (operator === '+') {
-        calculator.add(input.innerHTML);
-        input.innerHTML = calculator.getTotal();
-        calculator.resetTotal();
-
-      } else if (operator === '-') {
-        calculator.subtract(input.innerHTML);
-        input.innerHTML = calculator.getTotal();
-        calculator.resetTotal();
-
-      } else if (operator === 'x') {
-        calculator.multiply(input.innerHTML);
-        input.innerHTML = calculator.getTotal();
-        calculator.resetTotal();      
-
-      } else if (operator === '÷') {
-        calculator.divide(input.innerHTML);
-        input.innerHTML = calculator.getTotal();
-        calculator.resetTotal();
-
-      }
+      console.log(tempNum)
+      calculator.pushToArray(operator, tempNum)
+      calculator.expressionEvaluator();
+      // 
+      input.innerHTML += keyChoice 
+      input.innerHTML += calculator.getTotal();
+      // input.innerHTML += calculator.getTotal();
+      calculator.resetTotal();
     // if any other operator key is used, function performed
     } else {
-
-      if (operator === '+') {
-        calculator.add(input.innerHTML);
-        input.innerHTML = calculator.getTotal();
-
-      } else if (operator === '-') {
-        calculator.subtract(input.innerHTML);
-        input.innerHTML = calculator.getTotal();
-
-      } else if (operator === 'x') {
-        calculator.multiply(input.innerHTML);
-        input.innerHTML = calculator.getTotal(); 
-
-      } else if (operator === '÷') {
-        calculator.divide(input.innerHTML);
-        input.innerHTML = calculator.getTotal();
-      }
-
-      operator = keyChoice; 
-      operatorUsed = true;
+      console.log(tempNum)
+      calculator.pushToArray(operator, tempNum) 
+      operator = keyChoice;
+      tempNum = 0
+      input.innerHTML += operator;
     }
   // end of registerOperation function
   }
@@ -200,7 +177,9 @@ var registerLogic = (function () {
     placeCounter = 0;
     balanceSelected = false;
     operator = null;
-    operatorChecker = null;
+    operatorUsed = false;
+    tempNum = 0;
+    calculator.resetExpression();
     calculator.resetTotal();
     document.querySelector('.userInput').innerHTML = 0;
   }
