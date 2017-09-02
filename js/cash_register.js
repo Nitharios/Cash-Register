@@ -30,7 +30,7 @@ var registerLogic = (function () {
   var balanceSelected = false;
   var operator = null;
   var operatorUsed = false;
-
+  
   // Loop to assign event function for each digit
   for (var i = 0; i < digits.length; i++) {
     digits[i].onclick = registerDigit;
@@ -129,7 +129,6 @@ var registerLogic = (function () {
         calculator.resetTotal();
 
       }
-
     // if any other operator key is used, function performed
     } else {
 
@@ -155,7 +154,6 @@ var registerLogic = (function () {
     }
   // end of registerOperation function
   }
-
   // Function called onto each key
   function registerOption(event) {
     // Registers the current input BEFORE last key press
@@ -188,7 +186,6 @@ var registerLogic = (function () {
     }
   // end of registerOption function 
   }
-
   // if the balance has been checked, clears userInput
   function balanceChecker() {
     if (balanceSelected === true) {
@@ -196,13 +193,6 @@ var registerLogic = (function () {
       document.querySelector('.userInput').innerHTML = 0;
     }
   }
-
-  function operatorChecker() {
-    if (operator !== null) {
-      document.querySelector('.userInput').innerHTML = '';
-    }
-  }
-
   // clears user input and resets values except total and balance
   function clear() {
     decimalAdded = false;
