@@ -1,4 +1,8 @@
 /*
+THINGS TO WORK ON:
+-> Adding an invisible placeholder beneath .userInput that outputs the input expression
+-> .userInput will show only current number
+
 KNOWN BUGS:
 <> Multiplying or Dividing decimal numbers returns whole numbers without the decimals
 <> After '=' is pressed, user can still add numbers to the result
@@ -34,6 +38,7 @@ var registerLogic = (function () {
   var operator = null;
   var operatorUsed = false;
   var tempNum = 0;
+  var equalsUsed = false;
 
   // Loop to assign event function for each digit
   for (var i = 0; i < digits.length; i++) {
@@ -72,7 +77,6 @@ var registerLogic = (function () {
       input.innerHTML += keyChoice;  
 
     } else if (placeCounter < 2 && decimalAdded === true) {
-      operatorUsed = false;
       placeCounter += 1;
       tempNum += keyChoice;
       input.innerHTML += keyChoice;
@@ -83,7 +87,6 @@ var registerLogic = (function () {
       input.innerHTML += keyChoice;
 
     }
-    console.log(operatorUsed)
   // end of registerDigit function  
   }
   // Function assigned to special keys [., 00]
@@ -94,12 +97,15 @@ var registerLogic = (function () {
     balanceChecker();
 
     if (keyChoice === '.' && decimalAdded === false) {
+      operatorUsed = false;
       decimalAdded = true;
+      tempNum += '.'
       input.innerHTML += keyChoice;
 
     } else if (keyChoice === '00' && decimalAdded === true && placeCounter === 0) {
       zeroZeroAdded = true;
       placeCounter = 2;
+      tempNum += 00
       input.innerHTML += keyChoice;
     }
   // end of registerSpecialKey function
@@ -118,17 +124,18 @@ var registerLogic = (function () {
       calculator.pushToArray(null, tempNum)
       input.innerHTML += operator;
 
-    } else if (keyChoice === '=') {
+    } else if (keyChoice === '=' && equalsUsed === false) {
+      equalsUsed = true
       // if = operator selected, will return total according to last operator used and reset total
       calculator.pushToArray(operator, tempNum)
       calculator.expressionEvaluator();
       // 
       input.innerHTML += keyChoice 
       input.innerHTML += calculator.getTotal();
-      // input.innerHTML += calculator.getTotal();
+      clear();
       calculator.resetTotal();
     // if any other operator key is used, function performed
-    } else {
+    } else if (equalsUsed === false) {
       operatorUsed = true;
       calculator.pushToArray(operator, tempNum) 
       operator = keyChoice;
@@ -136,6 +143,8 @@ var registerLogic = (function () {
       input.innerHTML += operator;
 
     }
+
+    decimalAdded = false;
   // end of registerOperation function
   }
   // Function assigned to options [reset, clear, balance, deposit, withdraw]
@@ -148,9 +157,15 @@ var registerLogic = (function () {
     if (keyChoice === 'reset') {
       calculator.resetBalance();
       clear();
+      calculator.resetExpression();
+      calculator.resetTotal();
+      document.querySelector('.userInput').innerHTML = 0;
 
     } else if (keyChoice === 'clear') {
       clear();
+      calculator.resetExpression();
+      calculator.resetTotal();
+      document.querySelector('.userInput').innerHTML = 0;
 
     } else if (keyChoice === 'balance') {
       balanceSelected = true;
@@ -186,9 +201,6 @@ var registerLogic = (function () {
     operator = null;
     operatorUsed = false;
     tempNum = 0;
-    calculator.resetExpression();
-    calculator.resetTotal();
-    document.querySelector('.userInput').innerHTML = 0;
   }
 // end of registerLogic function  
 })();

@@ -87,6 +87,7 @@ var calculator = (function() {
     }
 
     total = expressionArray[0]
+    console.log(expressionArray)
   }
 
   return calculator = {
