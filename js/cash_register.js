@@ -22,7 +22,7 @@ KNOWN BUGS:
           --> balanceChecker() is setting the .innerHTML when the operator key is pressed
       <> SOLUTION --> removed operation section of balanceChecker & added line: input.innerHTML = calculator.getTotal() to bottom of add()
 */
-console.log('Sanity Test - cash_register.js')
+console.log('Sanity Check - cash_register.js')
 
 // Self-invoking function
 var registerLogic = (function () {

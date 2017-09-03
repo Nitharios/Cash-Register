@@ -1,4 +1,4 @@
-console.log('Sanity Test - calculator.js')
+console.log('Sanity Check - calculator.js')
 
 // Revealing Module Pattern
 // Self-invoking function
