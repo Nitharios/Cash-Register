@@ -36,6 +36,10 @@ var calculator = (function() {
     total = 0;
   }
 
+  function getExpression() {
+    return expressionArray;
+  }
+
   function resetExpression() {
     expressionArray = []
   }
@@ -78,7 +82,7 @@ var calculator = (function() {
       }
       
       addIndex = expressionArray.indexOf('+') // finds first index of + in the array
-      divideIndex = expressionArray.indexOf('-') // finds the first index of - in the array
+      subtractIndex = expressionArray.indexOf('-') // finds the first index of - in the array
     }
 
     total = expressionArray[0]
@@ -92,6 +96,7 @@ var calculator = (function() {
     getTotal: getTotal,
     setTotal: setTotal,
     resetTotal: resetTotal,
+    getExpression: getExpression,
     resetExpression: resetExpression,
     pushToArray: pushToArray,
     expressionEvaluator: expressionEvaluator

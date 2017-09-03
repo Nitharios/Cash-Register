@@ -64,7 +64,13 @@ var registerLogic = (function () {
       //operatorUsed = false;
       tempNum = keyChoice;
       input.innerHTML = keyChoice;
-      
+
+    } else if (operatorUsed === true) {
+      decimalAdded = false;
+      placeCounter = 0;
+      tempNum = keyChoice;
+      input.innerHTML += keyChoice;  
+          
     } else if (placeCounter < 2 && decimalAdded === true) {
       operatorUsed = false;
       placeCounter += 1;
@@ -76,11 +82,6 @@ var registerLogic = (function () {
       tempNum += keyChoice;
       input.innerHTML += keyChoice;
 
-    } else if (operatorUsed === true) {
-      decimalAdded = false;
-      placeCounter = 0;
-      tempNum = keyChoice;
-      input.innerHTML += keyChoice;
     }
   // end of registerDigit function  
   }
@@ -109,7 +110,7 @@ var registerLogic = (function () {
 
     balanceChecker();
     // sets the total if 0
-    if (calculator.setTotal() === 0) {
+    if (calculator.getTotal() === 0) {
       operatorUsed = true;
       operator = keyChoice;
       calculator.setTotal(tempNum);
@@ -133,6 +134,7 @@ var registerLogic = (function () {
       tempNum = 0
       input.innerHTML += operator;
     }
+      console.log(calculator.getExpression())
   // end of registerOperation function
   }
   // Function called onto each key
