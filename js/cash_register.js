@@ -55,13 +55,13 @@ var registerLogic = (function () {
 
   function registerDigit(event) {
     var input = document.querySelector('.userInput');
-    var keyChoice = this.innerHTML;
+    var keyChoice = event.currentTarget.dataset.digit;
 
     balanceChecker();
 
     // Inputs the key in the userInput section of the UI
     if (input.innerHTML === '0' && decimalAdded === false) {
-      operatorUsed = false;
+      //operatorUsed = false;
       tempNum = keyChoice;
       input.innerHTML = keyChoice;
       
@@ -76,13 +76,18 @@ var registerLogic = (function () {
       tempNum += keyChoice;
       input.innerHTML += keyChoice;
 
+    } else if (operatorUsed === true) {
+      decimalAdded = false;
+      placeCounter = 0;
+      tempNum = keyChoice;
+      input.innerHTML += keyChoice;
     }
   // end of registerDigit function  
   }
 
   function registerSpecialKey(event) {
     var input = document.querySelector('.userInput');
-    var keyChoice = this.innerHTML;
+    var keyChoice = event.currentTarget.dataset.special;
 
     balanceChecker();
 
@@ -100,7 +105,7 @@ var registerLogic = (function () {
 
   function registerOperation(event) {
     var input = document.querySelector('.userInput');
-    var keyChoice = this.innerHTML;
+    var keyChoice = event.currentTarget.dataset.operation;
 
     balanceChecker();
     // sets the total if 0
@@ -113,7 +118,6 @@ var registerLogic = (function () {
 
     } else if (keyChoice === '=') {
       // if = operator selected, will return total according to last operator used and reset total
-      console.log(tempNum)
       calculator.pushToArray(operator, tempNum)
       calculator.expressionEvaluator();
       // 
@@ -123,7 +127,7 @@ var registerLogic = (function () {
       calculator.resetTotal();
     // if any other operator key is used, function performed
     } else {
-      console.log(tempNum)
+      operatorUsed = true;
       calculator.pushToArray(operator, tempNum) 
       operator = keyChoice;
       tempNum = 0
