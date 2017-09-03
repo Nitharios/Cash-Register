@@ -135,7 +135,7 @@ var registerLogic = (function () {
       clear();
       calculator.resetTotal();
     // if any other operator key is used, function performed
-    } else if (equalsUsed === false) {
+    } else if (equalsUsed === false && operatorUsed === false) {
       operatorUsed = true;
       calculator.pushToArray(operator, tempNum) 
       operator = keyChoice;
