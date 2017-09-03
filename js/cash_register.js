@@ -157,6 +157,7 @@ var registerLogic = (function () {
     if (keyChoice === 'reset') {
       calculator.resetBalance();
       clear();
+      equalsUsed = false;
       calculator.resetExpression();
       calculator.resetTotal();
       document.querySelector('.userInput').innerHTML = 0;

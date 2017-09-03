@@ -30,7 +30,8 @@
   text-align: right;
   line-height: 30px;
 
-  overflow: auto;
+  white-space: nowrap;
+  direction: rtl;
 }
 
 .display .reset {
