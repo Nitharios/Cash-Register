@@ -1,6 +1,8 @@
 /*
 KNOWN BUGS:
-<> Solved: Adding a 0 to a digit mid calculation will set digit to 0
+<> Multiplying or Dividing decimal numbers returns whole numbers without the decimals
+<> After '=' is pressed, user can still add numbers to the result
+<> SOLVED: Adding a 0 to a digit mid calculation will set digit to 0
       !! PROBLEM --> operatorChecker() was overwriting input
       <> SOLUTION --> removed operatorChecker() and wrote added Boolean to check for operator used and to reset operator if multiple digits input
 <> SOLVED: '='' requires 2x clicks to evaluate properly
@@ -70,7 +72,7 @@ var registerLogic = (function () {
       placeCounter = 0;
       tempNum = keyChoice;
       input.innerHTML += keyChoice;  
-          
+
     } else if (placeCounter < 2 && decimalAdded === true) {
       operatorUsed = false;
       placeCounter += 1;
