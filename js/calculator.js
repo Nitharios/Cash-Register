@@ -51,6 +51,7 @@ var calculator = (function() {
     }
 
     expressionArray.push(parseFloat(digit));
+    console.log(expressionArray)
   }
 
   // handles expression in order of operations
@@ -85,7 +86,7 @@ var calculator = (function() {
       subtractIndex = expressionArray.indexOf('-') // finds the first index of - in the array
     }
 
-    total = expressionArray[0]
+    total = expressionArray[0] //(Math.round(expressionArray[0] * 100) / 100).toFixed(2) // Rounds the total to nearest 2 decimal places
   }
 
   return calculator = {

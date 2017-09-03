@@ -39,22 +39,18 @@ var registerLogic = (function () {
   for (var i = 0; i < digits.length; i++) {
     digits[i].onclick = registerDigit;
   }
-
   // Loop to assign event function for each special key
   for (var j = 0; j < specialKeys.length; j++) {
     specialKeys[j].onclick = registerSpecialKey;
   }
-
   // Loop to assign event function for each operation
   for (var k = 0; k < operations.length; k++) {
     operations[k].onclick = registerOperation;
   }
-
   // Loop to assign event function for each option
   for (var l = 0; l < options.length; l++) {
     options[l].onclick = registerOption;
   }
-
   // Function assigned to every digit [0-9]
   function registerDigit(event) {
     var input = document.querySelector('.userInput');
@@ -69,6 +65,7 @@ var registerLogic = (function () {
       input.innerHTML = keyChoice;
 
     } else if (operatorUsed === true) {
+      operatorUsed = false;
       decimalAdded = false;
       placeCounter = 0;
       tempNum = keyChoice;
@@ -81,11 +78,12 @@ var registerLogic = (function () {
       input.innerHTML += keyChoice;
       
     } else if (placeCounter < 2 && decimalAdded === false) {
-      operatorUsed = false;
+      //operatorUsed = false;
       tempNum += keyChoice;
       input.innerHTML += keyChoice;
 
     }
+    console.log(operatorUsed)
   // end of registerDigit function  
   }
   // Function assigned to special keys [., 00]
@@ -136,8 +134,8 @@ var registerLogic = (function () {
       operator = keyChoice;
       tempNum = 0
       input.innerHTML += operator;
+
     }
-      console.log(calculator.getExpression())
   // end of registerOperation function
   }
   // Function assigned to options [reset, clear, balance, deposit, withdraw]
