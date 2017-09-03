@@ -25,7 +25,7 @@ var calculator = (function() {
   }
 
   function getTotal() {
-    return total;
+    return (Math.round(total * 100) / 100).toFixed(2) // Rounds the total to nearest 2 decimal places
   }
 
   function setTotal(num) {
@@ -86,7 +86,7 @@ var calculator = (function() {
       subtractIndex = expressionArray.indexOf('-') // finds the first index of - in the array
     }
 
-    total = expressionArray[0] //(Math.round(expressionArray[0] * 100) / 100).toFixed(2) // Rounds the total to nearest 2 decimal places
+    total = expressionArray[0]
   }
 
   return calculator = {
