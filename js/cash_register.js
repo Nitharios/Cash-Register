@@ -55,6 +55,7 @@ var registerLogic = (function () {
     options[l].onclick = registerOption;
   }
 
+  // Function assigned to every digit [0-9]
   function registerDigit(event) {
     var input = document.querySelector('.userInput');
     var keyChoice = event.currentTarget.dataset.digit;
@@ -87,7 +88,7 @@ var registerLogic = (function () {
     }
   // end of registerDigit function  
   }
-
+  // Function assigned to special keys [., 00]
   function registerSpecialKey(event) {
     var input = document.querySelector('.userInput');
     var keyChoice = event.currentTarget.dataset.special;
@@ -105,7 +106,7 @@ var registerLogic = (function () {
     }
   // end of registerSpecialKey function
   }
-
+  // Function assigned to operators [+, -, x, /]
   function registerOperation(event) {
     var input = document.querySelector('.userInput');
     var keyChoice = event.currentTarget.dataset.operation;
@@ -139,12 +140,12 @@ var registerLogic = (function () {
       console.log(calculator.getExpression())
   // end of registerOperation function
   }
-  // Function called onto each key
+  // Function assigned to options [reset, clear, balance, deposit, withdraw]
   function registerOption(event) {
     // Registers the current input BEFORE last key press
     var input = document.querySelector('.userInput');
     // Registers most recent key press
-    var keyChoice = this.innerHTML;
+    var keyChoice = event.currentTarget.dataset.option;
     // resets entire calculator 
     if (keyChoice === 'reset') {
       calculator.resetBalance();
@@ -178,7 +179,7 @@ var registerLogic = (function () {
       document.querySelector('.userInput').innerHTML = 0;
     }
   }
-  // clears user input and resets values except total and balance
+  // clears user input and resets values except balance
   function clear() {
     decimalAdded = false;
     zeroZeroAdded = false;
