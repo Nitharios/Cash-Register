@@ -4,8 +4,9 @@ THINGS TO WORK ON:
 -> .userInput will show only current number
 
 KNOWN BUGS:
-<> Multiplying or Dividing decimal numbers returns whole numbers without the decimals
-<> After '=' is pressed, user can still add numbers to the result
+<> SOLVED: Multiplying or Dividing decimal numbers returns whole numbers without the decimals
+<> SOLVED: After '=' is pressed, user can still add numbers to the result
+      <> Temporarily disabled function
 <> SOLVED: Adding a 0 to a digit mid calculation will set digit to 0
       !! PROBLEM --> operatorChecker() was overwriting input
       <> SOLUTION --> removed operatorChecker() and wrote added Boolean to check for operator used and to reset operator if multiple digits input
