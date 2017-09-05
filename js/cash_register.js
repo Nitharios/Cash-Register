@@ -141,7 +141,7 @@ var registerLogic = (function () {
       calculator.pushToArray(operator, tempNum) 
       operator = keyChoice;
       tempNum = 0
-      input.innerHTML += operator;
+      input.innerHTML += operator; 
 
     }
 
@@ -156,11 +156,11 @@ var registerLogic = (function () {
     var keyChoice = event.currentTarget.dataset.option;
     // resets entire calculator 
     if (keyChoice === 'reset') {
-      calculator.resetBalance();
       clear();
       equalsUsed = false;
       calculator.resetExpression();
       calculator.resetTotal();
+      calculator.resetBalance();
       document.querySelector('.userInput').innerHTML = 0;
 
     } else if (keyChoice === 'clear') {
@@ -175,11 +175,11 @@ var registerLogic = (function () {
       
     } else if (balanceSelected === false) {
 
-      if (keyChoice === 'deposit') {
+      if (keyChoice === 'deposit' && operatorUsed === false) {
         calculator.deposit(parseFloat(input.innerHTML));
         clear();
 
-      } else if (keyChoice === 'withdraw' && input.innerHTML < calculator.getBalance()) {
+      } else if (keyChoice === 'withdraw' && operatorUsed === false && input.innerHTML < calculator.getBalance()) {
         calculator.withdraw(parseFloat(input.innerHTML));
         clear();
 
