@@ -1,14 +1,35 @@
-#content {
-  /*margin-left: 100px;
-  margin-top: 100px;*/
-  padding: 10px;
-  position: absolute;
+body {
+  background-image: url('http://www.shortday.in/wp-content/uploads/2016/07/Shin-Chan-Desktop-Wallpaper-HD.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: 100% 100%;
+}
 
-  border: 1px dashed black;
-  overflow: hidden;     
+span {
+  background-color: orange;
+}
+
+#content {
+   
 }
 
 #cashRegister {
+  padding: 10px;
+  margin: auto;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 356px;
+  height: 213px;
+
+  /*border: 1px solid black;*/
+  overflow: hidden;  
+
   width: 360px;
 }
 
@@ -17,6 +38,8 @@
 }
 
 .display .userInput {
+  background-color: orange;
+
   float: left;
 
   height: 30px;
